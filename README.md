@@ -18,6 +18,37 @@ single leaderboard. Edge-laptop vs Edge-Pi isolates *hardware*; Edge-laptop vs D
 isolates *architecture* (in-process vs client/server) on identical silicon; Cloud shows the
 real cost of a network round-trip.
 
+## Results
+
+10k × 384-dim, FastEmbed `bge-small-en-v1.5`, 1000 queries, `limit=10`. Full breakdown in
+**[RESULTS.md](RESULTS.md)**.
+
+| Cell | Embed docs/s | Upload vec/s | Query p50 | QPS | Peak RSS |
+|---|---|---|---|---|---|
+| Edge / Pi | 4.2 | 8,390 | 1.10 ms | 916 | 841 MB |
+| Edge / laptop | 188 | 80,892 | 0.072 ms | 14,155 | 853 MB |
+| Docker / laptop | 186 | 5,779 | 1.97 ms | 451 | 885 MB |
+| Cloud (eu-west-1) | 168 | 200 | 102.8 ms | 9.7 | 879 MB |
+
+**Takeaways:**
+
+- **Architecture beats raw compute for query serving.** In-process Edge on the laptop is
+  **~27× lower latency** than Qdrant-in-Docker on the *same* Mac (0.072 ms vs 1.97 ms) — the
+  gap is the network/serialization layer, not the engine.
+- **Edge on the Pi out-queries Docker on the laptop** (1.10 ms / 916 QPS vs 1.97 ms / 451 QPS)
+  *despite far weaker hardware*, because it has no network hop. This is the core "why Edge" result.
+- **Hardware still shows up:** same in-process engine, the laptop is ~15× faster than the Pi
+  (0.072 ms vs 1.10 ms).
+- **Cloud query latency (~103 ms) is ~1,400× Edge's** — almost entirely the internet
+  round-trip to the region, not Qdrant compute. Right tool for managed scale, wrong one for
+  latency-critical local inference.
+- **On the Pi, embedding is the bottleneck, not the database:** FastEmbed runs at ~4 docs/s
+  (~40 min for 10k) while Edge upload/query stay fast. For embedded AI, plan around on-device
+  embedding cost.
+
+> Note: the server cells run Qdrant **1.18.0** and Edge is **0.7.2** — close, but not
+> identically versioned engines.
+
 ## How it works
 
 `run.py` runs one cell end-to-end with identical logic; only the backend differs
