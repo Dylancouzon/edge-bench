@@ -1,0 +1,60 @@
+{
+  "cell": "docker-laptop",
+  "backend": "server",
+  "host": {
+    "hostname": "Dylans-MacBook-Pro.local",
+    "machine": "arm64",
+    "system": "Darwin",
+    "python": "3.12.13",
+    "cpu_count": 15
+  },
+  "params": {
+    "n": 10000,
+    "queries": 1000,
+    "batch": 256,
+    "limit": 10,
+    "dim": 384
+  },
+  "embedding": {
+    "model": "BAAI/bge-small-en-v1.5",
+    "embed_batch": 32,
+    "doc_embed_s": 53.725,
+    "docs_per_s": 186.1,
+    "query_embed_s": 4.984
+  },
+  "create_s": 0.0869,
+  "upload": {
+    "total_s": 1.73,
+    "vectors_per_s": 5778.9,
+    "batch_ms": {
+      "count": 40,
+      "p50_ms": 42.894,
+      "p95_ms": 55.292,
+      "p99_ms": 56.013,
+      "mean_ms": 43.259,
+      "min_ms": 4.791,
+      "max_ms": 56.158
+    },
+    "index_s": 0.515,
+    "indexed_ok": true
+  },
+  "resources_upload": {
+    "peak_rss_mb": 884.8,
+    "mean_cpu_pct": 4.4
+  },
+  "count_after": 10000,
+  "query_latency_ms": {
+    "count": 1000,
+    "p50_ms": 1.968,
+    "p95_ms": 2.968,
+    "p99_ms": 4.769,
+    "mean_ms": 2.159,
+    "min_ms": 1.502,
+    "max_ms": 27.172
+  },
+  "resources_query": {
+    "peak_rss_mb": 885.2,
+    "mean_cpu_pct": 5.9
+  },
+  "query_throughput_qps": 451.2
+}

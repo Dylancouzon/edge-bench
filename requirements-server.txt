@@ -1,0 +1,5 @@
+# Server cells (Docker + Cloud) — standard Qdrant client
+qdrant-client
+fastembed
+psutil
+numpy

@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+# regenerable corpus cache (built by bench/corpus.py)
+data/corpus_ag_news.txt

@@ -1,0 +1,5 @@
+# Edge cells (Raspberry Pi + laptop control) — in-process engine
+qdrant-edge-py==0.7.2
+fastembed
+psutil
+numpy
